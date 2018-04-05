@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use App\Http\Controllers\Controller;
 use Auth;
-use Validator;
-use App\Event;
-
+use App\User;
 use Calendar;
+use App\Event;
+use Validator;
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 
 class EventsController extends Controller
 {
@@ -48,7 +49,7 @@ class EventsController extends Controller
         $event->end_date = $request['end_date'];
         $event->save();
 
-        \Session::flash('success','Event added successfully.');
+        \Session::flash('success','Propozycja dodana pomyslnie, czekaj na akceptacje');
         return Redirect::to('events');
     }
     public function show($id)
@@ -60,7 +61,8 @@ class EventsController extends Controller
 
     public function panel()
     {
-        $events = Event::where('status', 0)->paginate(10);
+      
+        $events = Event::with('users')->where('status', 0)->paginate(10);
         return view('events.panel',[
         'events' => $events,
         ]);
@@ -91,7 +93,15 @@ class EventsController extends Controller
     }
 
 
+    public function termin()
+    {
+      
+        $events = Event::with('users')->where('status', 1)->paginate(10);
+        return view('events.termin',[
+        'events' => $events,
+        ]);
 
+    }
 
 }
 

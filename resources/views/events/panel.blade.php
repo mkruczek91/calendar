@@ -14,7 +14,11 @@
     </tr>
 @foreach($events as $event)
     <tr>
-        <td>?</td>
+        <td>
+            @if ($event->users)
+                {{$event->users()->first()->name}}
+            @endif        
+        </td>
         <td>{{$event->events_name}}</td>
         <td>{{$event->start_date}}</td>
         <td>{{$event->end_date}}</td>
