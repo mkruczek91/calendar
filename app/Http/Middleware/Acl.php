@@ -18,9 +18,11 @@ class Acl
         $user = $request->user();
         if(!$user){
             return redirect(route('login'));
-        }  
+        }else{
+             $roles= $user->roles;
+     
+    }  
 
- 
 
         return $next($request);
 
