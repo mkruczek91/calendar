@@ -87,11 +87,13 @@ class EventsController extends Controller
 
     }
 
-    public function destroy()
+    public function destroy(Event $event)
     {
-        //
+        $event->delete();
+        return redirect( route('events.panel'));
     }
 
+    
 
     public function termin()
     {
@@ -106,19 +108,19 @@ class EventsController extends Controller
     public function callendar()
     {
         $events = [];
-        $data = Event::all();
+        $data = Event::where('status', 1)->get();
         if($data->count()) {
             foreach ($data as $key => $value) {
                 $events[] = Calendar::event(
-                    $value->title,
+                    $value->events_name,
                     true,
                     new \DateTime($value->start_date),
                     new \DateTime($value->end_date.' +1 day'),
                     null,
                     // Add color and link on event
 	                [
-	                    'color' => '#f05050',
-	                    'url' => 'pass here url and any route',
+                        'color' => '#f05050',
+                        'textColor' => '#fff',
 	                ]
                 );
             }

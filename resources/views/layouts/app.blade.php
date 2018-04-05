@@ -34,7 +34,7 @@
 
                 <a class="navbar-brand" href="{{route('events.panel')}}" >Propozycje terminów</a>
 
-                <a class="navbar-brand" href="{{route('events.termin')}}" >Spotkania</a>
+                <a class="navbar-brand" href="{{route('events.callendar')}}" >Spotkania</a>
 
                 @endif
 

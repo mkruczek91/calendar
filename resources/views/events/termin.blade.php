@@ -8,6 +8,8 @@
         <th>Temat</th>
         <th>Od</th>
         <th>Do</th>
+    
+
        
         
     </tr>
@@ -21,6 +23,7 @@
         <td>{{$event->events_name}}</td>
         <td>{{$event->start_date}}</td>
         <td>{{$event->end_date}}</td>
+      
 
 
 
