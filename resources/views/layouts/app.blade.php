@@ -29,12 +29,14 @@
                     {{ config('app.name', 'Laravel') }}
                 </a> --}}
 
+                {{-- @if(Auth::user()->isAdmin()) --}}
+
                 @if(Auth::user())
-                <a class="navbar-brand" href="{{route('users.index')}}" >Klienci</a>
+                    <a class="navbar-brand" href="{{route('users.index')}}" >Klienci</a>
 
-                <a class="navbar-brand" href="{{route('events.panel')}}" >Propozycje terminów</a>
+                    <a class="navbar-brand" href="{{route('events.panel')}}" >Propozycje terminów</a>
 
-                <a class="navbar-brand" href="{{route('events.callendar')}}" >Spotkania</a>
+                    <a class="navbar-brand" href="{{route('events.callendar')}}" >Spotkania</a>
 
                 @endif
 

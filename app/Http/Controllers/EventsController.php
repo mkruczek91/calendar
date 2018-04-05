@@ -43,6 +43,7 @@ class EventsController extends Controller
             return Redirect::to('events.index')->withInput()->withErrors($validator);
         }
 
+    
         $event = new Event;
         $event->events_name = $request['events_name'];
         $event->start_date = $request['start_date'];
@@ -93,7 +94,7 @@ class EventsController extends Controller
         return redirect( route('events.panel'));
     }
 
-    
+
 
     public function termin()
     {

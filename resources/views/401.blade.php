@@ -1,0 +1,1 @@
+Ten widok nie jest przenaczony dla Ciebie

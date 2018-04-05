@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/401', function () {
+    return view('401');
+})->name('401');
+
 Auth::routes();
 
 
@@ -23,13 +28,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group([
     'middleware' => 'acl',
-    'roles' => '1',
+    'roles' => 'ADMIN',
 
 ], function(){
-Route::get('/events','EventsController@index')
-    ->name('events.index');
-Route::post('/events','EventsController@addEvent')
-    ->name('events.add');
 
 Route::get('/events/panel','EventsController@panel')
     ->name('events.panel');
@@ -43,15 +44,21 @@ Route::put('/events/panel/{event}','EventsController@update')
     ->name('events.update');
 Route::delete('/events/panel/{event}','EventsController@destroy')
     ->name('events.destroy');
-
 // Route::resource('events','EventsController');
-
-
-
-
 Route::resource('users','UsersController');
 
-Route::resource('suggestions','SuggestionsController');
+});
 
+Route::group([
+    'middleware' => 'acl',
+    'roles' => 'USER',
+
+], function(){
+
+
+Route::get('/events','EventsController@index')
+    ->name('events.index');
+Route::post('/events','EventsController@addEvent')
+    ->name('events.add');
 
 });

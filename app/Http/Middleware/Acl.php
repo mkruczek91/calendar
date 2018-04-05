@@ -18,10 +18,12 @@ class Acl
         $user = $request->user();
         if(!$user){
             return redirect(route('login'));
-        }else{
-             $roles= $user->roles;
-     
-    }  
+        }
+        
+        $actions = $request->route()->getAction();
+        if (!$user->isRole($actions['roles'])){
+            return redirect(route('401'));
+        } 
 
 
         return $next($request);
