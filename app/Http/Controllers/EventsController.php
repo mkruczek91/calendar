@@ -10,11 +10,12 @@ use Validator;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class EventsController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
     	$events = Event::where('status', 1)->get();
     	$event_list = [];
     	foreach ($events as $key => $event) {
@@ -25,9 +26,13 @@ class EventsController extends Controller
                 new \DateTime($event->end_date.' +1 day')
             );
     	}
-    	$calendar_details = Calendar::addEvents($event_list); 
+        $calendar_details = Calendar::addEvents($event_list); 
+        
+        $eventsuser = Event::with('users')->where('status', 1)->where('users_id', $request->user()->id)->get();
 
-        return view('events.index', compact('calendar_details') );
+        return view('events.index', compact('calendar_details'),[
+            'eventsuser' => $eventsuser,
+        ] );
     }
 
     public function addEvent(Request $request)
@@ -43,13 +48,13 @@ class EventsController extends Controller
             return Redirect::to('events.index')->withInput()->withErrors($validator);
         }
 
-    
         $event = new Event;
         $event->events_name = $request['events_name'];
         $event->start_date = $request['start_date'];
         $event->end_date = $request['end_date'];
         $event->users_id = $request->user()->id;
         $event->save();
+
 
         \Session::flash('success','Propozycja dodana pomyslnie, czekaj na akceptacje');
         return Redirect::to('events');
@@ -89,8 +94,19 @@ class EventsController extends Controller
 
     }
 
-    public function destroy(Event $event)
+    public function destroy(Request $request,Event $event)
     {
+        $eventsuser = Event::with('users')->where('status', 0)->where('users_id', $event->users_id)->get()[0]['users']->email;
+        $title = $event->events_name;
+        $start = $event->start_date;
+        $end = $event->end_date;
+
+        Mail::send('emails.send', ['title'=>$title,'start'=>$start,'end'=>$end], function ($message) use ($eventsuser)
+        {
+            $message->from('admin@admin.com', 'Pan Admin');
+            $message->to($eventsuser);
+        });
+
         $event->delete();
         return redirect( route('events.panel'));
     }
@@ -110,11 +126,11 @@ class EventsController extends Controller
     public function callendar()
     {
         $events = [];
-        $data = Event::where('status', 1)->get();
+        $data = Event::with('users')->where('status', 1)->get();
         if($data->count()) {
             foreach ($data as $key => $value) {
                 $events[] = Calendar::event(
-                    $value->events_name,
+                    $value['users']->name .' - '. $value->events_name,
                     true,
                     new \DateTime($value->start_date),
                     new \DateTime($value->end_date.' +1 day'),

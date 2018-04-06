@@ -4,11 +4,11 @@
 @section('content')
         <div class="container">
 
-            <div class="panel panel-default">
-
-             <div class="panel-heading">Dodaj swoja propozycje terminu spotkania</div>
-
-              <div class="panel-body">    
+            <div class="card text-white bg-secondary">
+            <div class="card-header">
+             <h4>Dodaj swoja propozycje terminu spotkania</h4>
+            </div>
+              <div class="card-body">    
 
                    {!! Form::open(array('route' => 'events.add','method'=>'POST','files'=>'true')) !!}
                     <div class="row">
@@ -58,18 +58,25 @@
                    {!! Form::close() !!}
 
              </div>
-
             </div>
+            <br/>
+            <h4>Twoje zatwierdzone spotkania:</h4>
 
-            {{-- <div class="panel panel-default">
-              <div class="panel-heading">Kalendarz spotkan</div>
-              <div class="panel-body">
-               
+            <table class="table table-hover">
+                <tr>
+                    <th>Temat</th>
+                    <th>Od</th>
+                    <th>Do</th>
+                </tr>
+            @foreach($eventsuser as $event)
+                <tr>
+                    <td>{{$event->events_name}}</td>
+                    <td>{{$event->start_date}}</td>
+                    <td>{{$event->end_date}}</td>
+                </tr>
+            @endforeach
 
-                  {!! $calendar_details->script() !!}
 
-              </div>
-            </div> --}}
-
+            </table>
             </div>
 @endsection

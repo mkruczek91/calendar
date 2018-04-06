@@ -28,15 +28,25 @@
         <td><a href="{{ route('events.edit', $event->id)}}" class="btn btn-success">Tak</a></td>
         
         <td>
-            <form method="post" action="{{route('events.destroy', $event->id)}}">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="_method" value="delete">
+ 
+            <form class="delete" action="{{route('events.destroy', $event->id)}}" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <button class="btn btn-danger">Nie</button>
             </form>
+
         </td>
     </tr>
 
 @endforeach
+
+<script>
+        $(".delete").on("submit", function(){
+            return confirm("Czy na pewno chcesz usunac propozycje spotkania?");
+        });
+</script>
+
+
 </table>
 {{$events->links()}}
 

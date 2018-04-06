@@ -27,7 +27,6 @@
             </form>
         </td>
     </tr>
-
 @endforeach
 </table>
 {{$users->links()}}

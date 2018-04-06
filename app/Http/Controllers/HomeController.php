@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -21,8 +23,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request,User $user)
     {
-        return view('home');
+        if ((Auth::user()->isAdmin()) ) {// do your margic here
+            return redirect('/events/callendar');
+        }
+        
+         return redirect('/events');
     }
 }

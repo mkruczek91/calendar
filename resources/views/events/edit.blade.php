@@ -7,23 +7,39 @@
     {{ csrf_field() }}
     <input type="hidden" name="_method" value="put">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Czy na pewno akceptujesz spotkanie:</div>
-        <div class="form-group">
-            <input disabled type="text" class="form-control" value="{{ $event->events_name}}" name="events_name">
-        </div>
-        <div class="form-group">
-            <input disabled type="text" class="form-control" value="{{ $event->start_date}}" name="start_date">
-        </div>
-        <div class="form-group">
-            <input disabled type="text" class="form-control" value="{{ $event->end_date}}" name="end_date">
-        </div>
+    <div class="card bg-light">
+
+        <div class="card-header">Czy na pewno akceptujesz spotkanie:</div>
+
+    <table class="table">
+        <tr class="d-flex">
+            <td class="col-3">Kto:</td>
+            <td class="col-9">{{ $event['users']->name}}</td>
+        </tr>
+        <tr class="d-flex">
+            <td class="col-3">Temat:</td>
+            <td class="col-9">{{ $event->events_name}}</td>
+        </tr>
+        <tr class="d-flex">
+            <td class="col-3">Początek</td>
+            <td class="col-9">{{ $event->start_date}}</td>
+        </tr>
+        <tr class="d-flex">
+            <td class="col-3">Koniec</td>
+            <td class="col-9">{{ $event->end_date}}</td>
+        </tr>
+    </table>
+
+        
         <div class="form-group">
             <input type="hidden" type="text" class="form-control" value="{{ $event->status}}" name="status">
         </div>
+        <div class="form-group">
+            <input  type="hidden" type="text" class="form-control" value="{{ $event['users']->email}}" name="email">
+        </div>
         
         
-        <div class="panel-body">
+        <div class="card-body">
        
             <div class="form-group">
                 <button class="btn btn-primary">Zapisz</button>
@@ -32,6 +48,7 @@
             </div>
 
         </div>
+ 
     </div>
 
 
