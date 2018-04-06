@@ -25,6 +25,9 @@
         <div class="form-group">
             <input type="password" class="form-control" name="password" placeholder="haslo">
         </div>
+        
+        <input type="hidden" class="form-control" name="role_id" value="2">
+          
 
        <div class="form-group">
            <button class="btn btn-primary">Zapisz</button>

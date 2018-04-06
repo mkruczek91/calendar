@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,7 @@ class UsersController extends Controller
     public function store(Request $request, User $user)
     {
         $user = User::create($request->all());
+        $user->roles()->attach($request->get('role_id'));
 
         $data = $request->all();
         $data['password']=bcrypt($data['password']);

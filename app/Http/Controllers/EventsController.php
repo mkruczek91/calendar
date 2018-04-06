@@ -48,6 +48,7 @@ class EventsController extends Controller
         $event->events_name = $request['events_name'];
         $event->start_date = $request['start_date'];
         $event->end_date = $request['end_date'];
+        $event->users_id = $request->user()->id;
         $event->save();
 
         \Session::flash('success','Propozycja dodana pomyslnie, czekaj na akceptacje');
